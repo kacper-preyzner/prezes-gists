@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GistController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
@@ -10,10 +11,7 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-Route::get('/gist/{id}', function (int $id) {
-    $gist = ['name' => 'Test gist', 'content' => "println!(\"Hello World$id!\")"];
-    return Inertia::render('gist-show', ['gist' => $gist]);
-});
+Route::get('/gist/{gist}', [GistController::class, 'show']);
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
