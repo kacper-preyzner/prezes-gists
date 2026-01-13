@@ -4,15 +4,14 @@ import { Prism } from "react-syntax-highlighter";
 import { nightOwl } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 export default function Welcome() {
-	const exampleCode = `function shareCode() {
-  const gist = await uploadGist({
-    name: "hello.js",
-    content: "console.log('Hello, World!')",
-    language: "javascript"
-  });
+	const exampleCode = `class You:
+    def describe(self, s: str):
+        print(f"You are {s}!")
 
-  return gist.url;
-}`;
+you = You()
+you.describe("awesome")
+
+# You are awesome!`;
 
 	return (
 		<>
@@ -83,6 +82,30 @@ export default function Welcome() {
 						</div>
 					</div>
 
+					{/* CLI Section */}
+					<div className="p-8 space-y-4 w-full rounded-lg border bg-slate-900/50 border-slate-800">
+						<h2 className="text-2xl font-semibold text-center text-slate-200">
+							Upload from your terminal
+						</h2>
+						<div className="p-4 rounded-lg border bg-slate-950 border-slate-800">
+							<code className="font-mono" style={{ color: "#d6deeb" }}>
+								$ prezes-gists upload myfile.py
+								<br />
+								<span style={{ color: "#addb67" }}>
+									✓ File 'myfile.py' uploaded successfully!
+								</span>
+								<br />
+								<span style={{ color: "#82aaff" }}>
+									→
+									https://prezes-gists.kacper-preyzner.pl/gist/019bb8cb-0ce3-7346-a7c1-7f11ceb93de4
+								</span>
+							</code>
+						</div>
+						<p className="text-center text-slate-400">
+							Install our CLI tool to start sharing code instantly
+						</p>
+					</div>
+
 					{/* Code Example Section */}
 					<div className="space-y-4 w-full">
 						<h2 className="text-2xl font-semibold text-center text-slate-200">
@@ -91,11 +114,11 @@ export default function Welcome() {
 						<div className="overflow-hidden rounded-lg border bg-slate-900/50 border-slate-800">
 							<div className="flex gap-2 items-center py-2 px-4 border-b bg-slate-900 border-slate-800">
 								<span className="ml-2 font-mono text-sm text-slate-400">
-									example.js
+									myfile.py
 								</span>
 							</div>
 							<Prism
-								language="javascript"
+								language="python"
 								style={nightOwl}
 								PreTag="div"
 								customStyle={{
@@ -108,30 +131,6 @@ export default function Welcome() {
 								children={exampleCode.trim()}
 							/>
 						</div>
-					</div>
-
-					{/* CLI Section */}
-					<div className="p-8 space-y-4 w-full rounded-lg border bg-slate-900/50 border-slate-800">
-						<h2 className="text-2xl font-semibold text-center text-slate-200">
-							Upload from your terminal
-						</h2>
-						<div className="p-4 rounded-lg border bg-slate-950 border-slate-800">
-							<code className="font-mono" style={{ color: "#d6deeb" }}>
-								$ prezes-gists upload myfile.js
-								<br />
-								<span style={{ color: "#addb67" }}>
-									✓ File 'myfile.js' uploaded successfully!
-								</span>
-								<br />
-								<span style={{ color: "#82aaff" }}>
-									→
-									https://prezes-gists.kacper-preyzner.pl/gist/019bb8cb-0ce3-7346-a7c1-7f11ceb93de4
-								</span>
-							</code>
-						</div>
-						<p className="text-center text-slate-400">
-							Install our CLI tool to start sharing code instantly
-						</p>
 					</div>
 
 					{/* Footer */}
