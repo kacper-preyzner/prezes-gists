@@ -1,0 +1,34 @@
+repos:
+  - repo: local
+    hooks:
+      # PHP Pint - Laravel code formatter
+      - id: pint
+        name: Laravel Pint
+        entry: vendor/bin/pint
+        language: system
+        types: [php]
+        pass_filenames: false
+
+      # Frontend formatting
+      - id: prettier
+        name: Format Frontend
+        entry: npm run format
+        language: system
+        types_or: [javascript, jsx, ts, tsx, json, css, scss]
+        pass_filenames: false
+
+      # Frontend linting
+      - id: eslint
+        name: Lint Frontend
+        entry: npm run lint
+        language: system
+        types_or: [javascript, jsx, ts, tsx]
+        pass_filenames: false
+
+      # PHPUnit tests (optional - uncomment if you want to run tests on every commit)
+      - id: phpunit
+        name: PHPUnit Tests
+        entry: vendor/bin/phpunit
+        language: system
+        types: [php]
+        pass_filenames: false
