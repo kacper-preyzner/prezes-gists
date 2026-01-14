@@ -8,10 +8,8 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('gists', function (Blueprint $table) {
+        Schema::create('albums', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('file_name');
-            $table->text('content');
             $table->timestamps();
         });
     }
