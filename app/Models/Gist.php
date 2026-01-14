@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 
 class Gist extends Model
@@ -13,5 +14,10 @@ class Gist extends Model
     public function getExtension(): string
     {
         return Str::of($this->file_name)->explode('.')->last();
+    }
+
+    public function album(): BelongsTo
+    {
+        return $this->belongsTo(Album::class);
     }
 }

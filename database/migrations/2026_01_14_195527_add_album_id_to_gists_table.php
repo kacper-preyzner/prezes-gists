@@ -8,11 +8,8 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('gists', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('file_name');
-            $table->text('content');
-            $table->timestamps();
+        Schema::table('gists', function (Blueprint $table) {
+            $table->foreignId('album_id')->nullable()->constrained()->onDelete('cascade');
         });
     }
 };
