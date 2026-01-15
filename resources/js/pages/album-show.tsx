@@ -1,5 +1,5 @@
 import { Head } from '@inertiajs/react';
-import { Check, Copy, File, Hash, Link } from 'lucide-react';
+import { Check, Copy, File, Hash, Link, Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Prism } from 'react-syntax-highlighter';
 import { nightOwl } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -12,6 +12,8 @@ type Props = {
 
 export default function AlbumShow({ gists }: Props) {
     const [activeIndex, setActiveIndex] = useState(0);
+    const [displayedIndex, setDisplayedIndex] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
     const [copied, setCopied] = useState(false);
     const [linkCopied, setLinkCopied] = useState(false);
     const [showLineNumbers, setShowLineNumbers] = useState(() => {
@@ -20,6 +22,20 @@ export default function AlbumShow({ gists }: Props) {
     });
 
     const activeGist = gists[activeIndex];
+    const displayedGist = gists[displayedIndex];
+
+    const handleFileClick = (index: number) => {
+        if (index === activeIndex) return;
+        setIsLoading(true);
+        setActiveIndex(index);
+        // Defer the content update to show loading state first
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                setDisplayedIndex(index);
+                setIsLoading(false);
+            });
+        });
+    };
 
     useEffect(() => {
         localStorage.setItem(
@@ -72,7 +88,7 @@ export default function AlbumShow({ gists }: Props) {
                         {gists.map((gist, index) => (
                             <button
                                 key={index}
-                                onClick={() => setActiveIndex(index)}
+                                onClick={() => handleFileClick(index)}
                                 className={`flex w-full items-center gap-2 rounded-md px-3 py-2 text-left font-mono text-sm transition-colors ${
                                     activeIndex === index
                                         ? 'bg-slate-700 text-slate-100'
@@ -150,20 +166,38 @@ export default function AlbumShow({ gists }: Props) {
                                     {activeGist.name}
                                 </span>
                             </div>
-                            <Prism
-                                language={activeGist.language}
-                                style={nightOwl}
-                                PreTag="div"
-                                showLineNumbers={showLineNumbers}
-                                customStyle={{
-                                    fontFamily: "'Fira Code', monospace",
-                                    fontSize: '16px',
-                                    lineHeight: '1.6',
-                                    margin: 0,
-                                    background: 'transparent',
-                                }}
-                                children={activeGist.content.trim()}
-                            />
+                            <div className="relative min-h-[200px]">
+                                <div
+                                    className={`absolute inset-0 flex items-center justify-center transition-opacity duration-150 ${
+                                        isLoading
+                                            ? 'opacity-100'
+                                            : 'pointer-events-none opacity-0'
+                                    }`}
+                                >
+                                    <Loader2 className="h-8 w-8 animate-spin text-slate-500" />
+                                </div>
+                                <div
+                                    className={`transition-opacity duration-150 ${
+                                        isLoading ? 'opacity-0' : 'opacity-100'
+                                    }`}
+                                >
+                                    <Prism
+                                        language={displayedGist.language}
+                                        style={nightOwl}
+                                        PreTag="div"
+                                        showLineNumbers={showLineNumbers}
+                                        customStyle={{
+                                            fontFamily:
+                                                "'Fira Code', monospace",
+                                            fontSize: '16px',
+                                            lineHeight: '1.6',
+                                            margin: 0,
+                                            background: 'transparent',
+                                        }}
+                                        children={displayedGist.content.trim()}
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </main>
