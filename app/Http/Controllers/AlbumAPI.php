@@ -11,7 +11,7 @@ class AlbumAPI extends Controller
     {
         $album = $createAlbumOfGists->handle($createAlbumData);
 
-        $response = ['link' => url("album/$album->id")];
+        $response = ['link' => $album->getLink()];
 
         return response()->json($response, 201);
     }

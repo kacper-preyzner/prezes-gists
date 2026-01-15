@@ -16,6 +16,11 @@ class Gist extends Model
         return Str::of($this->file_name)->explode('.')->last();
     }
 
+    public function getLink(): string
+    {
+        return url("gist/$this->id");
+    }
+
     public function album(): BelongsTo
     {
         return $this->belongsTo(Album::class);

@@ -14,4 +14,9 @@ class Album extends Model
     {
         return $this->hasMany(Gist::class);
     }
+
+    public function getLink(): string
+    {
+        return url("album/$this->id");
+    }
 }
